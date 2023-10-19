@@ -1,5 +1,6 @@
 package io.challenge.stori.login.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -27,16 +28,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.challenge.stori.R
+import io.challenge.stori.home.view.HomeActivity
 import io.challenge.stori.login.view.ui.theme.StoriTheme
 import io.challenge.stori.login.viewModel.LoginViewModel
 
@@ -64,14 +66,37 @@ fun LoginScreen(
 ) {
 	val context = LocalContext.current
 	val isAuthenticated by loginViewModel.isAuthenticated.observeAsState()
+	val invalidEmail by loginViewModel.invalidEmail.observeAsState()
+	val failLogin by loginViewModel.failLogin.observeAsState()
+	val navigateToHome by loginViewModel.navigateToHome.observeAsState()
 
-	var email by remember { mutableStateOf("") }
-	var password by remember { mutableStateOf("") }
+	val emailState = remember { mutableStateOf(TextFieldValue()) }
+	val passwordState = remember { mutableStateOf(TextFieldValue()) }
 
-	val isLoginButtonEnabled = email.isNotEmpty() && password.isNotEmpty()
+	val isLoginButtonEnabled =
+		emailState.value.text.isNotEmpty() && passwordState.value.text.isNotEmpty()
 
 	if (isAuthenticated == true) {
-		Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+		Toast.makeText(context, "Bienvenido nuevamente!", Toast.LENGTH_SHORT).show()
+	}
+
+	if (invalidEmail == true) {
+		Toast.makeText(context, "Ingrese un email válido.", Toast.LENGTH_SHORT).show()
+		loginViewModel.restartEmail()
+	}
+
+	if (failLogin == true) {
+		Toast.makeText(
+			context,
+			"Usuario o contraseña incorrecta. Intente nuevamente",
+			Toast.LENGTH_SHORT
+		).show()
+		loginViewModel.restartFailLogin()
+	}
+
+	if (navigateToHome == true) {
+		val intent = Intent(context, HomeActivity::class.java)
+		context.startActivity(intent)
 	}
 
 	Column(
@@ -82,7 +107,7 @@ fun LoginScreen(
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
 		Image(
-			painter = painterResource(id = R.drawable.ic_launcher_foreground),
+			painter = painterResource(id = R.drawable.storilogo),
 			contentDescription = "App Logo",
 			modifier = Modifier.size(100.dp)
 		)
@@ -90,13 +115,11 @@ fun LoginScreen(
 		Spacer(modifier = Modifier.height(32.dp))
 
 		OutlinedTextField(
-			value = email,
-			onValueChange = { email = it },
+			value = emailState.value,
+			onValueChange = { emailState.value = it },
 			label = { Text(text = "Email") },
 			singleLine = true,
-			keyboardOptions = KeyboardOptions.Default.copy(
-				keyboardType = KeyboardType.Email
-			),
+			keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
 			keyboardActions = KeyboardActions(onDone = { /* Handle keyboard done action if needed */ }),
 			modifier = Modifier.fillMaxWidth()
 		)
@@ -104,14 +127,14 @@ fun LoginScreen(
 		Spacer(modifier = Modifier.height(16.dp))
 
 		OutlinedTextField(
-			value = password,
-			onValueChange = { password = it },
-			label = { Text(text = "Password") },
+			value = passwordState.value,
+			onValueChange = { passwordState.value = it },
+			label = {
+				Text(text = "Password")
+			},
 			singleLine = true,
 			visualTransformation = PasswordVisualTransformation(),
-			keyboardOptions = KeyboardOptions.Default.copy(
-				keyboardType = KeyboardType.Password
-			),
+			keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
 			keyboardActions = KeyboardActions(onDone = { /* Handle keyboard done action if needed */ }),
 			modifier = Modifier.fillMaxWidth()
 		)
@@ -120,23 +143,32 @@ fun LoginScreen(
 
 		Button(
 			onClick = {
-				loginViewModel.login(context, email, password)
-			}, modifier = Modifier.fillMaxWidth(), enabled = isLoginButtonEnabled
+				val email = emailState.value.text
+				val password = passwordState.value.text
+				loginViewModel.login(email, password)
+			},
+			modifier = Modifier.fillMaxWidth(),
+			enabled = isLoginButtonEnabled
 		) {
 			Text(text = "Login")
 		}
 
 		Spacer(modifier = Modifier.height(16.dp))
 
-		Text(text = "Forgot Password?",
-			modifier = Modifier.clickable { /* Agregar lógica para restablecer la contraseña */ })
+		Text(
+			text = "Forgot Password?",
+			modifier = Modifier.clickable { /* Agregar lógica para restablecer la contraseña */ }
+		)
 
 		Spacer(modifier = Modifier.height(16.dp))
 
-		Text(text = "Register",
-			modifier = Modifier.clickable { /* Agregar lógica para abrir la pantalla de registro */ })
+		Text(
+			text = "Register",
+			modifier = Modifier.clickable { /* Agregar lógica para abrir la pantalla de registro */ }
+		)
 	}
 }
+
 
 @Preview
 @Composable
