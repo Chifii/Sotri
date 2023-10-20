@@ -22,6 +22,8 @@ class LoginViewModel : ViewModel() {
 	private val invalidEmailMLD = MutableLiveData(false)
 	val invalidEmail: LiveData<Boolean> = invalidEmailMLD
 
+	private var userId: String? = ""
+
 	fun login(email: String, password: String) {
 		if (!isEmailValid(email)) {
 			invalidEmailMLD.value = true
@@ -38,6 +40,7 @@ class LoginViewModel : ViewModel() {
 							failLoginMLD.value = true
 						}
 					}
+				userId = auth.currentUser?.providerId
 			}
 		}
 	}
@@ -53,6 +56,10 @@ class LoginViewModel : ViewModel() {
 
 	fun restartEmail() {
 		invalidEmailMLD.value = false
+	}
+
+	fun getUserId(): String? {
+		return userId
 	}
 
 }

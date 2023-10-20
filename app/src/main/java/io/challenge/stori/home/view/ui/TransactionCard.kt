@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.challenge.stori.R
@@ -51,48 +50,50 @@ fun TransactionCard(
 						.size(48.dp)
 						.clip(CircleShape)
 						.background(Color.White)
-						.border(1.dp, Color(0xFFE5E5E5), CircleShape)
+						.border(1.dp, Color(COLOR_GRAY), CircleShape)
 						.padding(4.dp),
 					contentAlignment = Alignment.Center
 				) {
-					Row {
+					transaction.title?.let { _ ->
 						Image(
-							painter = painterResource(id = R.drawable.ic_launcher_foreground), // Reemplaza con tu icono
+							painter = if (transaction.amount!! >= 0) {
+								painterResource(id = R.drawable.trending_up)
+							} else {
+								painterResource(id = R.drawable.trending_down)
+							},
 							contentDescription = null,
 							modifier = Modifier.size(32.dp)
 						)
 					}
 				}
-				Text(
-					text = transaction.title,
-					fontSize = 14.sp,
-					modifier = Modifier
-						.padding(start = 24.dp)
-						.align(Alignment.CenterVertically)
-				)
+				transaction.title?.let { title ->
+					Text(
+						text = title,
+						fontSize = 16.sp,
+						modifier = Modifier
+							.padding(start = 24.dp)
+							.align(Alignment.CenterVertically)
+					)
+				}
 			}
 
 			Column {
-				Text(
-					text = if (transaction.amount >= 0) "+$${transaction.amount}" else "-$${-transaction.amount}",
-					fontSize = 18.sp,
-					fontWeight = FontWeight.Bold,
-					color = if (transaction.amount >= 0) Color(0xFF3F48CC) else Color(0xFFEF4F4F)
-				)
+				transaction.amount?.let { amount ->
+					val formattedAmount =
+						if (amount >= 0) "+${"%.2f".format(amount)}" else "-${"%.2f".format(-amount)}"
+
+					Text(
+						text = formattedAmount,
+						fontSize = 18.sp,
+						fontWeight = FontWeight.Bold,
+						color = if (amount >= 0) Color(COLOR_BLUE) else Color(COLOR_RED)
+					)
+				}
 			}
 		}
 	}
 }
 
-@Preview
-@Composable
-fun TransactionCardPreview() {
-	TransactionCard(
-		Transaction(
-			"Envio dinero a Juan Perez",
-			"Public Transport",
-			-20.0
-		)
-	)
-}
-
+const val COLOR_RED = 0xFFEF4F4F
+const val COLOR_BLUE = 0xFF3F48CC
+const val COLOR_GRAY = 0xFFE5E5E5

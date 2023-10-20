@@ -1,6 +1,8 @@
 package io.challenge.stori.home.repository
 
-class HomeRepository {
-	// fun loadBankAccountData(): LiveData<BankAccountData> = homeDataSource.getBankAccountData()
+import io.challenge.stori.home.model.Transaction
+
+interface HomeRepository {
+	suspend fun loadBankAccountData(userId: String): List<Transaction>
 }
 

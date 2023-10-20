@@ -96,6 +96,7 @@ fun LoginScreen(
 
 	if (navigateToHome == true) {
 		val intent = Intent(context, HomeActivity::class.java)
+		intent.putExtra("userId", loginViewModel.getUserId())
 		context.startActivity(intent)
 	}
 

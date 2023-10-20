@@ -1,7 +1,7 @@
 package io.challenge.stori.home.model
 
 data class Transaction(
-	val title: String,
-	val date: String,
-	val amount: Double
+	val title: String?,
+	val amount: Double?,
+	val date: String?
 )
