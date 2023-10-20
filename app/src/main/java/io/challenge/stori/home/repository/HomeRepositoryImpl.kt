@@ -24,10 +24,28 @@ class HomeRepositoryImpl : HomeRepository {
 					for (childSnapshot in dataSnapshot.children) {
 						val title = childSnapshot.child(TITLE_FIELD).getValue(String::class.java)
 						val amount = childSnapshot.child(AMOUNT_FIELD).getValue(Double::class.java)
-						val description =
-							childSnapshot.child(DESCRIPTION_FIELD).getValue(String::class.java)
+						val date = childSnapshot.child(DATE_FIELD).getValue(String::class.java)
+						val transactionNumber =
+							childSnapshot.child(TRANSACTION_NUMBER_FIELD)
+								.getValue(Long::class.java)
+						val paymentMethod =
+							childSnapshot.child(PAYMENT_METHOD_FIELD).getValue(String::class.java)
+						val cardNumber =
+							childSnapshot.child(CARD_NUMBER_FIELD).getValue(String::class.java)
+						val cardProvider =
+							childSnapshot.child(CARD_PROVIDER_FIELD).getValue(String::class.java)
 
-						transactions.add(Transaction(title, amount, description))
+						transactions.add(
+							Transaction(
+								title,
+								amount,
+								date,
+								transactionNumber,
+								paymentMethod,
+								cardNumber,
+								cardProvider
+							)
+						)
 					}
 				}
 			} catch (e: DatabaseException) {
@@ -48,4 +66,8 @@ class HomeRepositoryImpl : HomeRepository {
 private const val TRANSACTIONS_PATH = "transactions"
 private const val TITLE_FIELD = "title"
 private const val AMOUNT_FIELD = "amount"
-private const val DESCRIPTION_FIELD = "description"
+private const val TRANSACTION_NUMBER_FIELD = "transactionNumber"
+private const val CARD_PROVIDER_FIELD = "paymentMethod"
+private const val CARD_NUMBER_FIELD = "cardNumber"
+private const val PAYMENT_METHOD_FIELD = "cardProvider"
+private const val DATE_FIELD = "date"
