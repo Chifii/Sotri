@@ -29,9 +29,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -59,7 +62,7 @@ class LoginActivity : ComponentActivity() {
 	}
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
 	loginViewModel: LoginViewModel
@@ -69,6 +72,8 @@ fun LoginScreen(
 	val invalidEmail by loginViewModel.invalidEmail.observeAsState()
 	val failLogin by loginViewModel.failLogin.observeAsState()
 	val navigateToHome by loginViewModel.navigateToHome.observeAsState()
+
+	val keyboardController = LocalSoftwareKeyboardController.current
 
 	val emailState = remember { mutableStateOf(TextFieldValue()) }
 	val passwordState = remember { mutableStateOf(TextFieldValue()) }
@@ -120,8 +125,11 @@ fun LoginScreen(
 			onValueChange = { emailState.value = it },
 			label = { Text(text = "Email") },
 			singleLine = true,
-			keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-			keyboardActions = KeyboardActions(onDone = { /* Handle keyboard done action if needed */ }),
+			keyboardOptions = KeyboardOptions.Default.copy(
+				keyboardType = KeyboardType.Email,
+				imeAction = ImeAction.Done
+			),
+			keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
 			modifier = Modifier.fillMaxWidth()
 		)
 
@@ -135,8 +143,11 @@ fun LoginScreen(
 			},
 			singleLine = true,
 			visualTransformation = PasswordVisualTransformation(),
-			keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-			keyboardActions = KeyboardActions(onDone = { /* Handle keyboard done action if needed */ }),
+			keyboardOptions = KeyboardOptions.Default.copy(
+				keyboardType = KeyboardType.Password,
+				imeAction = ImeAction.Done
+			),
+			keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
 			modifier = Modifier.fillMaxWidth()
 		)
 
@@ -153,13 +164,6 @@ fun LoginScreen(
 		) {
 			Text(text = "Login")
 		}
-
-		Spacer(modifier = Modifier.height(16.dp))
-
-		Text(
-			text = "Forgot Password?",
-			modifier = Modifier.clickable { /* Agregar lógica para restablecer la contraseña */ }
-		)
 
 		Spacer(modifier = Modifier.height(16.dp))
 

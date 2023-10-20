@@ -1,6 +1,7 @@
 package io.challenge.stori.home.view.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,19 +40,14 @@ fun BalanceCard(totalBalance: String, todayBalance: String) {
 		Column(
 			modifier = Modifier.padding(16.dp)
 		) {
-			Text(
-				text = "Total:",
-				fontSize = 20.sp,
-				color = Color.Black
-			)
-			Spacer(modifier = Modifier.height(8.dp))
-
-			Row {
+			Row(
+				modifier = Modifier.fillMaxWidth(),
+				horizontalArrangement = Arrangement.SpaceBetween
+			) {
 				Text(
-					text = if (isBalanceVisible) "$$totalBalance" else "$******",
-					fontSize = 36.sp,
-					fontWeight = FontWeight.Bold,
-					color = Color(COLOR_BLUE)
+					text = "Total:",
+					fontSize = 16.sp,
+					color = Color.Black
 				)
 
 				Icon(
@@ -70,10 +66,19 @@ fun BalanceCard(totalBalance: String, todayBalance: String) {
 				)
 			}
 
-			Spacer(modifier = Modifier.height(8.dp))
+			Spacer(modifier = Modifier.height(2.dp))
+
 			Text(
-				text = if (isBalanceVisible) "$$todayBalance" else "$******",
-				fontSize = 14.sp,
+				text = if (isBalanceVisible) "$ $totalBalance" else "$ ******",
+				fontSize = 36.sp,
+				fontWeight = FontWeight.Bold,
+				color = Color(COLOR_BLUE)
+			)
+
+			Spacer(modifier = Modifier.height(8.dp).padding(start = 4.dp))
+			Text(
+				text = if (isBalanceVisible) "$ $todayBalance" else "$ ******",
+				fontSize = 16.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color(COLOR_RED)
 			)
