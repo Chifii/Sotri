@@ -32,8 +32,7 @@ android {
 		getByName("release") {
 			isMinifyEnabled = false
 			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro"
+				getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
 			)
 		}
 	}
@@ -90,7 +89,7 @@ dependencies {
 	implementation("com.google.firebase:firebase-auth-ktx")
 	implementation("com.google.firebase:firebase-firestore-ktx")
 	implementation("com.google.firebase:firebase-storage-ktx")
-	implementation("com.google.firebase:firebase-database-ktx")
+	implementation("com.google.firebase:firebase-database:${rootProject.extra["firebaseDatabase"]}")
 	implementation("com.google.firebase:firebase-analytics-ktx")
 
 	// Navigation
@@ -130,6 +129,10 @@ dependencies {
 	implementation("androidx.compose.ui:ui-graphics")
 	implementation("androidx.compose.ui:ui-tooling-preview")
 	implementation("androidx.compose.material3:material3")
+
+	// Shimmer
+	implementation("com.valentinilk.shimmer:compose-shimmer:${rootProject.extra["shimmerVersion"]}")
+
 
 	// Testing
 	testImplementation("junit:junit:${rootProject.extra["junitVersion"]}")
