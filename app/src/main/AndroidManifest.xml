@@ -23,7 +23,8 @@
             android:name=".login.view.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.Stori">
+            android:theme="@style/Theme.Stori"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,6 +36,13 @@
             android:exported="true"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.Stori" />
+
+        <activity
+            android:name=".registration.view.RegistrationActivity"
+            android:exported="true"
+            android:label="@string/title_activity_register"
+            android:theme="@style/Theme.Stori"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
