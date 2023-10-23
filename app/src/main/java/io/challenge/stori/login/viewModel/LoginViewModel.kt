@@ -40,7 +40,7 @@ class LoginViewModel : ViewModel() {
 							failLoginMLD.value = true
 						}
 					}
-				userId = auth.currentUser?.providerId
+				userId = auth.currentUser?.uid
 			}
 		}
 	}

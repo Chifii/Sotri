@@ -111,12 +111,12 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Account Number", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = "Transaction Number", fontSize = 12.sp, fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.transactionNumber != null) "$ ${transaction.transactionNumber}" else "N/A",
+					text = if (transaction?.transactionNumber != null) "${transaction.transactionNumber}" else "N/A",
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)

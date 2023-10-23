@@ -3,29 +3,31 @@ package io.challenge.stori.registration.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import io.challenge.stori.registration.useCase.UserRegisterUseCase
+import io.challenge.stori.utils.Result
+import kotlinx.coroutines.launch
 
-class RegistrationViewModel : ViewModel() {
-	/*
-	private var bankAccountDataMLD: MutableLiveData<List<Transaction>> = MutableLiveData()
-	val bankAccountData get() = bankAccountDataMLD as LiveData<List<Transaction>>
-	 */
-	private var emailMLD: MutableLiveData<String> = MutableLiveData()
-	val email get() = emailMLD as LiveData<String>
+class RegistrationViewModel(private val registerUseCase: UserRegisterUseCase) : ViewModel() {
 
-	private var passwordMLD: MutableLiveData<String> = MutableLiveData()
-	val password get() = passwordMLD as LiveData<String>
+	private var errorMLD: MutableLiveData<String> = MutableLiveData()
+	val error get() = errorMLD as LiveData<String>
 
-	private var firstNameMLD: MutableLiveData<String> = MutableLiveData()
-	val firstName get() = firstNameMLD as LiveData<String>
-
-	private var lastNameMLD: MutableLiveData<String> = MutableLiveData()
-	val lastName get() = lastNameMLD as LiveData<Boolean>
+	private var userIdMLD: MutableLiveData<String> = MutableLiveData()
+	val userId get() = userIdMLD as LiveData<String>
 
 	fun register(email: String, password: String, firstName: String, lastName: String) {
-		emailMLD.value = email
-		passwordMLD.value = password
-		firstNameMLD.value = firstName
-		lastNameMLD.value = lastName
+		viewModelScope.launch {
+			when (val result = registerUseCase.registerUser(email, password, firstName, lastName)) {
+				is Result.Success -> {
+					userIdMLD.value = result.data
+				}
+
+				is Result.Error -> {
+					errorMLD.value = result.exception.message
+				}
+			}
+		}
 	}
 
 	private fun validateField(value: String): Boolean {
@@ -42,15 +44,11 @@ class RegistrationViewModel : ViewModel() {
 	}
 
 	fun validateAllFields(
-		email: String,
-		password: String,
-		firstName: String,
-		lastName: String
+		email: String, password: String, firstName: String, lastName: String
 	): Boolean {
-		return validateEmail(email)
-				&& validatePassword(password)
-				&& validateField(firstName)
-				&& validateField(lastName)
+		return validateEmail(email) && validatePassword(password) && validateField(firstName) && validateField(
+			lastName
+		)
 	}
 
 

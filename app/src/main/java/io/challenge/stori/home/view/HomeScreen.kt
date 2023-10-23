@@ -41,7 +41,7 @@ class HomeActivity : AppCompatActivity() {
 
 		setContent {
 			val homeViewModel = HomeViewModel(HomeUseCase(HomeRepositoryImpl()))
-			homeViewModel.loadBankAccountData(savedInstanceState?.getString("userId") ?: "0")
+			homeViewModel.loadBankAccountData(intent.getStringExtra("userId") ?: "0")
 			HomeScreen(homeViewModel)
 		}
 	}

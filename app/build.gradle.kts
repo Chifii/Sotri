@@ -26,6 +26,7 @@ android {
 	buildFeatures {
 		viewBinding = true
 		compose = true
+		buildConfig = true
 	}
 
 	buildTypes {
@@ -103,6 +104,8 @@ dependencies {
 	implementation("androidx.compose.ui:ui-tooling-preview")
 	implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
 	implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
+	implementation("androidx.camera:camera-core:1.3.0")
+	implementation("androidx.camera:camera-lifecycle:1.3.0")
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	implementation("androidx.compose.material:material-icons-core")
 	implementation("androidx.compose.material:material-icons-extended")
@@ -142,5 +145,11 @@ dependencies {
 	androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+	implementation("androidx.camera:camera-core:1.1.0")
+	implementation("androidx.camera:camera-camera2:1.1.0")
+	implementation("androidx.camera:camera-lifecycle:1.1.0")
+	implementation("io.coil-kt:coil-compose:2.4.0")
+
 }
 

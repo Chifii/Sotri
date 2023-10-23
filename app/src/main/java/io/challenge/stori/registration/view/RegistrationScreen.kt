@@ -1,6 +1,8 @@
 package io.challenge.stori.registration.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
@@ -21,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,14 +44,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.challenge.stori.home.view.ui.COLOR_RED
+import io.challenge.stori.registration.firebase.FirebaseUserRepository
+import io.challenge.stori.registration.useCase.UserRegisterUseCase
 import io.challenge.stori.registration.viewModel.RegistrationViewModel
 
 class RegistrationActivity : AppCompatActivity() {
+
+	private val viewModel = RegistrationViewModel(UserRegisterUseCase(FirebaseUserRepository()))
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContent {
 			RegistrationScreen(
-				viewModel = RegistrationViewModel()
+				viewModel
 			)
 		}
 	}
@@ -73,6 +81,19 @@ fun RegistrationScreen(
 	var isPasswordVisible by remember { mutableStateOf(false) }
 
 	val context = LocalContext.current
+
+	val userId by viewModel.userId.observeAsState()
+	val error by viewModel.error.observeAsState()
+
+	if (userId != null) {
+		val intent = Intent(context, CameraActivity::class.java)
+		intent.putExtra("userId", userId)
+		context.startActivity(intent)
+	}
+
+	if (error != null) {
+		Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+	}
 
 	val isRegisterButtonEnabled = viewModel.validateAllFields(email, password, firstName, lastName)
 
@@ -177,6 +198,7 @@ fun RegistrationScreen(
 						firstName = firstName,
 						lastName = lastName
 					)
+
 				},
 				enabled = isRegisterButtonEnabled,
 				modifier = Modifier
@@ -192,5 +214,5 @@ fun RegistrationScreen(
 @Preview
 @Composable
 fun PreviewRegistration() {
-	RegistrationScreen(RegistrationViewModel())
+	RegistrationScreen(RegistrationViewModel(UserRegisterUseCase(FirebaseUserRepository())))
 }
