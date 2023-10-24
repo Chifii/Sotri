@@ -3,6 +3,7 @@ package io.challenge.stori.registration.view
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
@@ -19,8 +20,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -46,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.challenge.stori.R
 import io.challenge.stori.home.view.ui.COLOR_RED
+import io.challenge.stori.login.view.LoginActivity
 import io.challenge.stori.registration.firebase.FirebaseUserRepository
 import io.challenge.stori.registration.useCase.UserRegisterUseCase
 import io.challenge.stori.registration.viewModel.RegistrationViewModel
@@ -56,6 +60,21 @@ class RegistrationActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		val callback = object : OnBackPressedCallback(
+			true
+		) {
+			override fun handleOnBackPressed() {
+				finish()
+				val intent = Intent(this@RegistrationActivity, LoginActivity::class.java)
+				intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+				startActivity(intent)
+			}
+		}
+		this.onBackPressedDispatcher.addCallback(
+			this, callback
+		)
+
 		setContent {
 			RegistrationScreen(
 				viewModel
@@ -86,6 +105,8 @@ fun RegistrationScreen(
 
 	val userId by viewModel.userId.observeAsState()
 	val error by viewModel.error.observeAsState()
+
+	var isPasswordError by remember { mutableStateOf(false) }
 
 	if (userId != null) {
 		val intent = Intent(context, CameraActivity::class.java)
@@ -133,13 +154,26 @@ fun RegistrationScreen(
 
 			OutlinedTextField(
 				value = password,
-				onValueChange = { password = it },
+				onValueChange = { newPassword ->
+					password = newPassword
+					isPasswordError = false
+				},
 				label = { Text(stringResource(id = R.string.register_password)) },
 				keyboardOptions = KeyboardOptions.Default.copy(
 					keyboardType = if (isPasswordVisible) KeyboardType.Text else KeyboardType.Password,
 					imeAction = ImeAction.Done
 				),
-				keyboardActions = KeyboardActions(onDone = { nameFocusRequester.requestFocus() }),
+				keyboardActions = KeyboardActions(onDone = {
+					if (viewModel.validatePassword(password)) {
+						nameFocusRequester.requestFocus()
+					} else {
+						isPasswordError = true
+						passwordFocusRequester.requestFocus()
+						Toast.makeText(
+							context, PASSWORD_ERROR, Toast.LENGTH_SHORT
+						).show()
+					}
+				}),
 				singleLine = true,
 				visualTransformation = if (!isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
 				trailingIcon = {
@@ -159,7 +193,11 @@ fun RegistrationScreen(
 				modifier = Modifier
 					.fillMaxWidth()
 					.padding(vertical = 8.dp)
-					.focusRequester(passwordFocusRequester)
+					.focusRequester(passwordFocusRequester),
+				colors = TextFieldDefaults.outlinedTextFieldColors(
+					focusedBorderColor = if (isPasswordError) Color.Red else MaterialTheme.colorScheme.primary,
+					unfocusedBorderColor = if (isPasswordError) Color.Red else MaterialTheme.colorScheme.primary
+				)
 			)
 
 			OutlinedTextField(
@@ -212,6 +250,8 @@ fun RegistrationScreen(
 		}
 	}
 }
+
+private const val PASSWORD_ERROR = "The password must have at least 6 characters"
 
 @Preview
 @Composable

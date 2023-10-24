@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,6 +49,7 @@ import coil.compose.rememberAsyncImagePainter
 import io.challenge.stori.BuildConfig
 import io.challenge.stori.R
 import io.challenge.stori.home.view.HomeActivity
+import io.challenge.stori.login.view.LoginActivity
 import io.challenge.stori.registration.dataSource.dataSourceImpl.FirebaseDataSourceImpl
 import io.challenge.stori.registration.firebase.FirebaseImageRepository
 import io.challenge.stori.registration.useCase.SaveImageUrlUseCase
@@ -74,6 +76,21 @@ class CameraActivity : ComponentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		val callback = object : OnBackPressedCallback(
+			true
+		) {
+			override fun handleOnBackPressed() {
+				finish()
+				val intent = Intent(this@CameraActivity, LoginActivity::class.java)
+				intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+				startActivity(intent)
+			}
+		}
+		this.onBackPressedDispatcher.addCallback(
+			this,
+			callback
+		)
 
 		viewModel.setUser(intent.getStringExtra(USER_ID) ?: "0")
 		setContent {
@@ -218,8 +235,6 @@ fun CameraScreen(
 			}
 		}
 	}
-
-
 }
 
 fun Context.createImageFile(): File {

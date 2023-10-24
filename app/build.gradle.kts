@@ -102,33 +102,28 @@ dependencies {
 	implementation("androidx.compose.material:material:${rootProject.extra["composeVersion"]}")
 	implementation("androidx.compose.material3:material3")
 	implementation("androidx.compose.ui:ui-tooling-preview")
-	implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
-	implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
-	implementation("androidx.camera:camera-core:1.3.0")
-	implementation("androidx.camera:camera-lifecycle:1.3.0")
+	implementation("com.google.firebase:firebase-auth-ktx:${rootProject.extra["firebaseAuth"]}")
+	implementation("com.google.firebase:firebase-crashlytics-buildtools:${rootProject.extra["firebaseCrashlyticsBuildtools"]}")
+	implementation("androidx.camera:camera-core:${rootProject.extra["androidxCameraCore"]}")
+	implementation("androidx.camera:camera-lifecycle:${rootProject.extra["androidxCameraLifeCycle"]}")
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	implementation("androidx.compose.material:material-icons-core")
 	implementation("androidx.compose.material:material-icons-extended")
 	implementation("androidx.compose.material3:material3-window-size-class")
-
-	// Optional - Integration with activities
-	implementation("androidx.activity:activity-compose:1.8.0")
-	// Optional - Integration with ViewModels
-	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-	// Optional - Integration with LiveData
+	implementation("androidx.activity:activity-compose:${rootProject.extra["androidxActivityCompose"]}")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${rootProject.extra["androidxViewModelCompose"]}")
 	implementation("androidx.compose.runtime:runtime-livedata")
-	// Optional - Integration with RxJava
 	implementation("androidx.compose.runtime:runtime-rxjava2")
 
 
 	// Kotlin Coroutines
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.extra["coroutinesVersion"]}")
-	implementation("androidx.annotation:annotation:1.7.0")
-	implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-	implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-	implementation("androidx.activity:activity-compose:1.8.0")
-	implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+	implementation("androidx.annotation:annotation:${rootProject.extra["androidxAnnotation"]}")
+	implementation("androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.extra["androidxLifecycle"]}")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.extra["androidxLifecycle"]}")
+	implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.extra["androidxLifecycle"]}")
+	implementation("androidx.activity:activity-compose:${rootProject.extra["androidxActivityCompose"]}")
+	implementation(platform("androidx.compose:compose-bom:${rootProject.extra["composeBoomVersion"]}"))
 	implementation("androidx.compose.ui:ui-graphics")
 	implementation("androidx.compose.ui:ui-tooling-preview")
 	implementation("androidx.compose.material3:material3")
@@ -146,10 +141,8 @@ dependencies {
 	debugImplementation("androidx.compose.ui:ui-tooling")
 	debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-	implementation("androidx.camera:camera-core:1.1.0")
-	implementation("androidx.camera:camera-camera2:1.1.0")
-	implementation("androidx.camera:camera-lifecycle:1.1.0")
-	implementation("io.coil-kt:coil-compose:2.4.0")
+	// implementation("androidx.camera:camera-camera2:1.1.0")
+	implementation("io.coil-kt:coil-compose:${rootProject.extra["coilVersion"]}")
 
 }
 

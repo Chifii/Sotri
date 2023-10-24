@@ -18,8 +18,7 @@ class RegistrationViewModel(private val registerUseCase: UserRegisterUseCase) : 
 
 	fun register(email: String, password: String, firstName: String, lastName: String) {
 		viewModelScope.launch {
-			when (val result =
-				registerUseCase.registerUser(email, password, firstName, lastName)) {
+			when (val result = registerUseCase.registerUser(email, password, firstName, lastName)) {
 				is Result.Success -> {
 					userIdMLD.value = result.data
 				}
@@ -35,7 +34,7 @@ class RegistrationViewModel(private val registerUseCase: UserRegisterUseCase) : 
 		return value.isNotEmpty() && value.length >= FIELD_LENGTH
 	}
 
-	private fun validatePassword(value: String): Boolean {
+	fun validatePassword(value: String): Boolean {
 		return value.isNotEmpty() && value.length >= PASSWORD_LENGTH
 	}
 
