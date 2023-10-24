@@ -18,7 +18,8 @@ class RegistrationViewModel(private val registerUseCase: UserRegisterUseCase) : 
 
 	fun register(email: String, password: String, firstName: String, lastName: String) {
 		viewModelScope.launch {
-			when (val result = registerUseCase.registerUser(email, password, firstName, lastName)) {
+			when (val result =
+				registerUseCase.registerUser(email, password, firstName, lastName)) {
 				is Result.Success -> {
 					userIdMLD.value = result.data
 				}

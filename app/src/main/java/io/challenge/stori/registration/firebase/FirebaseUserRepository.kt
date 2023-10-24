@@ -6,6 +6,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import io.challenge.stori.registration.repository.UserRepository
 import io.challenge.stori.utils.Result
+import kotlinx.coroutines.tasks.await
 
 class FirebaseUserRepository : UserRepository {
 	private var result: Result<String> = Result.Success("")
@@ -40,7 +41,7 @@ class FirebaseUserRepository : UserRepository {
 
 						result = Result.Error(Exception(task.exception?.message))
 					}
-				}
+				}.await()
 			result
 		} catch (e: Exception) {
 			Log.e("FirebaseUserRepository", "Error: ${e.message}")
