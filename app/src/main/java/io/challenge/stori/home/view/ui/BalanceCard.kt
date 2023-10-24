@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,7 +46,7 @@ fun BalanceCard(totalBalance: String, todayBalance: String) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Total:",
+					text = stringResource(id = R.string.balance_card_total),
 					fontSize = 16.sp,
 					color = Color.Black
 				)
@@ -56,7 +57,7 @@ fun BalanceCard(totalBalance: String, todayBalance: String) {
 					} else {
 						painterResource(id = R.drawable.visibility_off_fill)
 					},
-					contentDescription = "Show numbers",
+					contentDescription = stringResource(id = R.string.balance_card_content_description),
 					modifier = Modifier
 						.padding(start = 8.dp, top = 4.dp)
 						.align(alignment = Alignment.CenterVertically)
@@ -69,15 +70,19 @@ fun BalanceCard(totalBalance: String, todayBalance: String) {
 			Spacer(modifier = Modifier.height(2.dp))
 
 			Text(
-				text = if (isBalanceVisible) "$ $totalBalance" else "$ ******",
+				text = if (isBalanceVisible) "$ $totalBalance" else stringResource(id = R.string.balance_card_hide_numbers),
 				fontSize = 36.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color(COLOR_BLUE)
 			)
 
-			Spacer(modifier = Modifier.height(8.dp).padding(start = 4.dp))
+			Spacer(
+				modifier = Modifier
+					.height(8.dp)
+					.padding(start = 4.dp)
+			)
 			Text(
-				text = if (isBalanceVisible) "$ $todayBalance" else "$ ******",
+				text = if (isBalanceVisible) "$ $todayBalance" else stringResource(id = R.string.balance_card_hide_numbers),
 				fontSize = 16.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color(COLOR_RED)

@@ -35,6 +35,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.challenge.stori.R
 import io.challenge.stori.home.view.ui.COLOR_RED
 import io.challenge.stori.registration.firebase.FirebaseUserRepository
 import io.challenge.stori.registration.useCase.UserRegisterUseCase
@@ -107,7 +109,7 @@ fun RegistrationScreen(
 			horizontalAlignment = Alignment.CenterHorizontally
 		) {
 			Text(
-				text = "New Account",
+				text = stringResource(id = R.string.register_title),
 				fontSize = 32.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color(COLOR_RED),
@@ -117,7 +119,7 @@ fun RegistrationScreen(
 			OutlinedTextField(
 				value = email,
 				onValueChange = { email = it },
-				label = { Text("Email") },
+				label = { Text(stringResource(id = R.string.register_email)) },
 				keyboardOptions = KeyboardOptions.Default.copy(
 					keyboardType = KeyboardType.Email, imeAction = ImeAction.Done
 				),
@@ -132,7 +134,7 @@ fun RegistrationScreen(
 			OutlinedTextField(
 				value = password,
 				onValueChange = { password = it },
-				label = { Text("Password") },
+				label = { Text(stringResource(id = R.string.register_password)) },
 				keyboardOptions = KeyboardOptions.Default.copy(
 					keyboardType = if (isPasswordVisible) KeyboardType.Text else KeyboardType.Password,
 					imeAction = ImeAction.Done
@@ -163,7 +165,7 @@ fun RegistrationScreen(
 			OutlinedTextField(
 				value = firstName,
 				onValueChange = { firstName = it },
-				label = { Text("First Name") },
+				label = { Text(stringResource(id = R.string.register_first_name)) },
 				keyboardOptions = KeyboardOptions.Default.copy(
 					keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
 				),
@@ -178,7 +180,7 @@ fun RegistrationScreen(
 			OutlinedTextField(
 				value = lastName,
 				onValueChange = { lastName = it },
-				label = { Text("Last Name") },
+				label = { Text(stringResource(id = R.string.register_last_name)) },
 				keyboardOptions = KeyboardOptions.Default.copy(
 					keyboardType = KeyboardType.Text, imeAction = ImeAction.Done
 				),
@@ -205,7 +207,7 @@ fun RegistrationScreen(
 					.fillMaxWidth()
 					.padding(vertical = 16.dp)
 			) {
-				Text("Register")
+				Text(stringResource(id = R.string.title_activity_register))
 			}
 		}
 	}

@@ -32,15 +32,15 @@ class RegistrationViewModel(private val registerUseCase: UserRegisterUseCase) : 
 	}
 
 	private fun validateField(value: String): Boolean {
-		return value.isNotEmpty() && value.length >= 3
+		return value.isNotEmpty() && value.length >= FIELD_LENGTH
 	}
 
 	private fun validatePassword(value: String): Boolean {
-		return value.isNotEmpty() && value.length >= 6
+		return value.isNotEmpty() && value.length >= PASSWORD_LENGTH
 	}
 
 	private fun validateEmail(email: String): Boolean {
-		val emailPattern = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+		val emailPattern = EMAIL_PATTERN
 		return email.matches(emailPattern.toRegex())
 	}
 
@@ -51,6 +51,8 @@ class RegistrationViewModel(private val registerUseCase: UserRegisterUseCase) : 
 			lastName
 		)
 	}
-
-
 }
+
+private const val EMAIL_PATTERN = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+private const val PASSWORD_LENGTH = 6
+private const val FIELD_LENGTH = 3

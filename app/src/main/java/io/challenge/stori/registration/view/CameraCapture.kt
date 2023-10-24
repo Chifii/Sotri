@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +46,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.rememberAsyncImagePainter
 import io.challenge.stori.BuildConfig
+import io.challenge.stori.R
 import io.challenge.stori.home.view.HomeActivity
 import io.challenge.stori.registration.dataSource.dataSourceImpl.FirebaseDataSourceImpl
 import io.challenge.stori.registration.firebase.FirebaseImageRepository
@@ -73,7 +75,7 @@ class CameraActivity : ComponentActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		viewModel.setUser(intent.getStringExtra("userId") ?: "0")
+		viewModel.setUser(intent.getStringExtra(USER_ID) ?: "0")
 		setContent {
 			setContent {
 				Surface(
@@ -98,6 +100,8 @@ fun CameraScreen(
 	val context = LocalContext.current
 
 	if (goToHome == true) {
+		Toast.makeText(context, REGISTER_SUCCESSFULLY, Toast.LENGTH_SHORT).show()
+
 		val intent = Intent(context, HomeActivity::class.java)
 		context.startActivity(intent)
 	}
@@ -119,10 +123,10 @@ fun CameraScreen(
 		ActivityResultContracts.RequestPermission()
 	) {
 		if (it) {
-			Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+			Toast.makeText(context, PERMISSION_GRANTED, Toast.LENGTH_SHORT).show()
 			cameraLauncher.launch(uri)
 		} else {
-			Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+			Toast.makeText(context, PERMISSION_DENIED, Toast.LENGTH_SHORT).show()
 		}
 	}
 
@@ -139,7 +143,7 @@ fun CameraScreen(
 			horizontalAlignment = Alignment.CenterHorizontally
 		) {
 			Text(
-				text = "Casi terminamos",
+				text = stringResource(id = R.string.register_photo_title),
 				fontSize = 32.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color.Blue,
@@ -149,7 +153,7 @@ fun CameraScreen(
 			)
 
 			Text(
-				text = "solo necesitamos una foto de tu ID/DNI/PASSPORT",
+				text = stringResource(id = R.string.register_photo_details),
 				modifier = Modifier
 					.align(Alignment.Start)
 					.padding(4.dp, bottom = 8.dp),
@@ -166,7 +170,7 @@ fun CameraScreen(
 				) {
 					if (capturedImageUri.path?.isNotEmpty() != true) {
 						Icon(imageVector = Icons.Default.CameraAlt,
-							contentDescription = "Tomar foto",
+							contentDescription = stringResource(id = R.string.register_take_photo),
 							modifier = Modifier
 								.size(100.dp)
 								.align(Alignment.Center)
@@ -194,7 +198,7 @@ fun CameraScreen(
 				Button(onClick = {
 					viewModel.uploadImageAndSaveUrl(capturedImageUri)
 				}) {
-					Text(text = "Continuar")
+					Text(text = stringResource(id = R.string.register_continue_button))
 				}
 			} else {
 				Button(onClick = {
@@ -204,7 +208,7 @@ fun CameraScreen(
 						permissionLauncher.launch(Manifest.permission.CAMERA)
 					}
 				}) {
-					Text(text = "Tomar foto")
+					Text(text = stringResource(id = R.string.register_take_photo))
 				}
 			}
 		}
@@ -213,12 +217,16 @@ fun CameraScreen(
 
 }
 
-
 fun Context.createImageFile(): File {
-	val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+	val timeStamp = SimpleDateFormat(TIME_STAMP).format(Date())
 	val imageFileName = "JPEG_" + timeStamp + "_"
-	val image = File.createTempFile(
+	return File.createTempFile(
 		imageFileName, ".jpg", externalCacheDir
 	)
-	return image
 }
+
+private const val REGISTER_SUCCESSFULLY = "Your account has been created successfully."
+private const val PERMISSION_GRANTED = "Permission Granted"
+private const val PERMISSION_DENIED = "Permission Denied"
+private const val USER_ID = "userId"
+private const val TIME_STAMP = "yyyyMMdd_HHmmss"

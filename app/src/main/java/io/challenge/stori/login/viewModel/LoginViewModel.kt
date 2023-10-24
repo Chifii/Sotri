@@ -30,7 +30,7 @@ class LoginViewModel : ViewModel() {
 			return
 		} else {
 			viewModelScope.launch {
-				var auth = Firebase.auth
+				val auth = Firebase.auth
 				auth.signInWithEmailAndPassword(email, password)
 					.addOnCompleteListener {
 						if (it.isSuccessful) {
@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
 	}
 
 	private fun isEmailValid(email: String): Boolean {
-		val emailPattern = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+		val emailPattern = EMAIL_PATTERN
 		return email.matches(emailPattern.toRegex())
 	}
 
@@ -63,3 +63,5 @@ class LoginViewModel : ViewModel() {
 	}
 
 }
+
+private const val EMAIL_PATTERN = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"

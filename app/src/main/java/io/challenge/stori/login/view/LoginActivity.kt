@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -92,26 +93,24 @@ fun LoginScreen(
 		emailState.value.text.isNotEmpty() && passwordState.value.text.isNotEmpty()
 
 	if (isAuthenticated == true) {
-		Toast.makeText(context, "Bienvenido nuevamente!", Toast.LENGTH_SHORT).show()
+		Toast.makeText(context, LOGIN_SUCCESS, Toast.LENGTH_SHORT).show()
 	}
 
 	if (invalidEmail == true) {
-		Toast.makeText(context, "Ingrese un email válido.", Toast.LENGTH_SHORT).show()
+		Toast.makeText(context, LOGIN_EMAIL_FAIL, Toast.LENGTH_SHORT).show()
 		loginViewModel.restartEmail()
 	}
 
 	if (failLogin == true) {
 		Toast.makeText(
-			context,
-			"Usuario o contraseña incorrecta. Intente nuevamente",
-			Toast.LENGTH_SHORT
+			context, LOGIN_FAIL, Toast.LENGTH_SHORT
 		).show()
 		loginViewModel.restartFailLogin()
 	}
 
 	if (navigateToHome == true) {
 		val intent = Intent(context, HomeActivity::class.java)
-		intent.putExtra("userId", loginViewModel.getUserId())
+		intent.putExtra(USER_ID, loginViewModel.getUserId())
 		context.startActivity(intent)
 	}
 
@@ -124,20 +123,18 @@ fun LoginScreen(
 	) {
 		Image(
 			painter = painterResource(id = R.drawable.storilogo),
-			contentDescription = "App Logo",
+			contentDescription = stringResource(id = R.string.app_logo_content_description),
 			modifier = Modifier.size(100.dp)
 		)
 
 		Spacer(modifier = Modifier.height(32.dp))
 
-		OutlinedTextField(
-			value = emailState.value,
+		OutlinedTextField(value = emailState.value,
 			onValueChange = { emailState.value = it },
-			label = { Text(text = "Email") },
+			label = { Text(text = stringResource(id = R.string.register_email)) },
 			singleLine = true,
 			keyboardOptions = KeyboardOptions.Default.copy(
-				keyboardType = KeyboardType.Email,
-				imeAction = ImeAction.Done
+				keyboardType = KeyboardType.Email, imeAction = ImeAction.Done
 			),
 			keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
 			modifier = Modifier.fillMaxWidth()
@@ -145,11 +142,10 @@ fun LoginScreen(
 
 		Spacer(modifier = Modifier.height(16.dp))
 
-		OutlinedTextField(
-			value = passwordState.value,
+		OutlinedTextField(value = passwordState.value,
 			onValueChange = { passwordState.value = it },
 			label = {
-				Text(text = "Password")
+				Text(text = stringResource(id = R.string.register_password))
 			},
 			singleLine = true,
 			visualTransformation = if (!isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
@@ -168,8 +164,7 @@ fun LoginScreen(
 				}
 			},
 			keyboardOptions = KeyboardOptions.Default.copy(
-				keyboardType = KeyboardType.Password,
-				imeAction = ImeAction.Done
+				keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
 			),
 			keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
 			modifier = Modifier.fillMaxWidth()
@@ -182,25 +177,25 @@ fun LoginScreen(
 				val email = emailState.value.text
 				val password = passwordState.value.text
 				loginViewModel.login(email, password)
-			},
-			modifier = Modifier.fillMaxWidth(),
-			enabled = isLoginButtonEnabled
+			}, modifier = Modifier.fillMaxWidth(), enabled = isLoginButtonEnabled
 		) {
-			Text(text = "Login")
+			Text(text = stringResource(id = R.string.title_activity_login))
 		}
 
 		Spacer(modifier = Modifier.height(16.dp))
 
-		Text(
-			text = "Register",
+		Text(text = stringResource(id = R.string.title_activity_register),
 			modifier = Modifier.clickable {
 				val intent = Intent(context, RegistrationActivity::class.java)
 				context.startActivity(intent)
-			}
-		)
+			})
 	}
 }
 
+private const val LOGIN_SUCCESS = "Welcome back!"
+private const val LOGIN_EMAIL_FAIL = "Enter a valid email."
+private const val LOGIN_FAIL = "Incorrect username or password. Please try again."
+private const val USER_ID = "userId"
 
 @Preview
 @Composable

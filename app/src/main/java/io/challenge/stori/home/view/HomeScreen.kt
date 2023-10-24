@@ -20,11 +20,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import io.challenge.stori.R
 import io.challenge.stori.home.model.Transaction
 import io.challenge.stori.home.repository.HomeRepositoryImpl
 import io.challenge.stori.home.useCase.HomeUseCase
@@ -89,7 +91,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
 			Spacer(modifier = Modifier.height(12.dp))
 
 			Text(
-				text = "Movimientos Recientes",
+				text = stringResource(id = R.string.recent_movements),
 				fontSize = 20.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color.Gray,
@@ -98,7 +100,7 @@ fun HomeScreen(homeViewModel: HomeViewModel) {
 
 			if (bankAccountData.isNullOrEmpty()) {
 				Text(
-					text = "No hay movimientos en tu cuenta",
+					text = stringResource(id = R.string.no_movements),
 					color = Color.Gray,
 					modifier = Modifier.padding(8.dp)
 				)
