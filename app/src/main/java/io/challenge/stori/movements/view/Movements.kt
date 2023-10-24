@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -57,7 +58,7 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 			Spacer(modifier = Modifier.height(8.dp))
 
 			Text(
-				text = "Success",
+				text = stringResource(id = R.string.transactions_card_title),
 				fontSize = 36.sp,
 				fontWeight = FontWeight.Bold,
 				modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -66,7 +67,7 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 			Spacer(modifier = Modifier.height(8.dp))
 
 			Text(
-				text = "The transfer was completed correctly.",
+				text = stringResource(id = R.string.transactions_card_description),
 				fontSize = 12.sp,
 				fontWeight = FontWeight.Light,
 				color = Color(Color.Gray.value),
@@ -76,7 +77,9 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 			Spacer(modifier = Modifier.height(16.dp))
 
 			Text(
-				text = if (transaction?.amount != null) "${transaction.amount}" else "N/A",
+				text = if (transaction?.amount != null) "${transaction.amount}" else stringResource(
+					id = R.string.transactions_card_n_a
+				),
 				fontSize = 30.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color(COLOR_BLUE),
@@ -99,7 +102,9 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 			Spacer(modifier = Modifier.height(16.dp))
 
 			Text(
-				text = "Transaction Details:", fontSize = 18.sp, fontWeight = FontWeight.Bold
+				text = stringResource(id = R.string.transactions_card_details_title),
+				fontSize = 18.sp,
+				fontWeight = FontWeight.Bold
 			)
 
 			Spacer(modifier = Modifier.height(16.dp))
@@ -111,12 +116,16 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Transaction Number", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = stringResource(id = R.string.transactions_card_details_number),
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.transactionNumber != null) "${transaction.transactionNumber}" else "N/A",
+					text = if (transaction?.transactionNumber != null) "${transaction.transactionNumber}" else stringResource(
+						id = R.string.transactions_card_n_a
+					),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)
@@ -130,12 +139,16 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Amount", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = stringResource(id = R.string.transactions_card_details_amount),
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.amount != null) "$ ${transaction.amount}" else "N/A",
+					text = if (transaction?.amount != null) "$ ${transaction.amount}" else stringResource(
+						id = R.string.transactions_card_n_a
+					),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)
@@ -149,12 +162,16 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Date", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = stringResource(id = R.string.transactions_card_details_date),
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.date != null) "${transaction.date}" else "N/A",
+					text = if (transaction?.date != null) "${transaction.date}" else stringResource(
+						id = R.string.transactions_card_n_a
+					),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)
@@ -168,12 +185,16 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Payment Method", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = stringResource(id = R.string.transactions_card_details_payment_method),
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.paymentMethod != null) "${transaction.paymentMethod}" else "N/A",
+					text = if (transaction?.paymentMethod != null) "${transaction.paymentMethod}" else stringResource(
+						id = R.string.transactions_card_n_a
+					),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)
@@ -187,12 +208,16 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Card Provider", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = stringResource(id = R.string.transactions_card_details_card_provider),
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.cardProvider != null) "${transaction.cardProvider}" else "N/A",
+					text = if (transaction?.cardProvider != null) "${transaction.cardProvider}" else stringResource(
+						id = R.string.transactions_card_n_a
+					),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)
@@ -206,12 +231,16 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				Text(
-					text = "Card Number", fontSize = 12.sp, fontWeight = FontWeight.Bold
+					text = stringResource(id = R.string.transactions_card_details_number),
+					fontSize = 12.sp,
+					fontWeight = FontWeight.Bold
 				)
 
 
 				Text(
-					text = if (transaction?.cardNumber != null) "${transaction.cardNumber}" else "N/A",
+					text = if (transaction?.cardNumber != null) "${transaction.cardNumber}" else stringResource(
+						id = R.string.transactions_card_n_a
+					),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Bold,
 					color = Color(Color.Gray.value)
@@ -247,7 +276,7 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				)
 
 				Text(
-					text = "Stori",
+					text = stringResource(id = R.string.app_name),
 					fontSize = 12.sp,
 					fontWeight = FontWeight.Light,
 					modifier = Modifier

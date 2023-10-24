@@ -11,6 +11,16 @@
     <string name="no_movements">There are no movements in your account</string>
     <string name="balance_card_total">Total:</string>
     <string name="balance_card_hide_numbers">$ ******</string>
+    <string name="transactions_card_title">Success</string>
+    <string name="transactions_card_description">The transfer was completed correctly.</string>
+    <string name="transactions_card_n_a">N/A</string>
+    <string name="transactions_card_details_title">Transaction Details:</string>
+    <string name="transactions_card_details_number">Transaction Number:</string>
+    <string name="transactions_card_details_amount">Amount:</string>
+    <string name="transactions_card_details_date">Date:</string>
+    <string name="transactions_card_details_payment_method">Payment Method:</string>
+    <string name="transactions_card_details_card_provider">Card Provider:</string>
+    <string name="transactions_card_details_card_number">Card Number:</string>
 
     <!-- Register Activity -->
     <string name="title_activity_register">Register</string>

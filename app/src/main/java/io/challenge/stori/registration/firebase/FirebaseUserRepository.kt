@@ -22,30 +22,37 @@ class FirebaseUserRepository : UserRepository {
 
 						val userId = user?.uid
 
-						Log.d("FirebaseUserRepository", "userId: $userId")
+						Log.d(TAG, "userId: $userId")
 
 						val userData = mapOf(
-							"firstName" to firstName, "lastName" to lastName
+							FIRST_NAME_FIELD to firstName, LAST_NAME_FIELD to lastName
 						)
 
-						Log.d("FirebaseUserRepository", "userData: $userData")
+						Log.d(TAG, "userData: $userData")
 
 						userId?.let {
-							Firebase.database.reference.child("users").child(userId)
+							Firebase.database.reference.child(USERS_PATH).child(userId)
 								.setValue(userData)
 						}
 
 						result = Result.Success(userId.toString())
 					} else {
-						Log.e("FirebaseUserRepository", "Error: ${task.exception?.message}")
+						Log.e(TAG, "Error: ${task.exception?.message}")
 
 						result = Result.Error(Exception(task.exception?.message))
 					}
 				}.await()
 			result
 		} catch (e: Exception) {
-			Log.e("FirebaseUserRepository", "Error: ${e.message}")
+			Log.e(TAG, "Error: ${e.message}")
 			Result.Error(e)
 		}
 	}
 }
+
+private const val TAG = "FirebaseUserRepository"
+private const val USERS_PATH = "users"
+private const val FIRST_NAME_FIELD = "firstName"
+private const val LAST_NAME_FIELD = "lastName"
+
+

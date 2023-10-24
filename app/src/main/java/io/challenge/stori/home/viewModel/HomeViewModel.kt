@@ -14,8 +14,8 @@ class HomeViewModel(
 ) : ViewModel() {
 
 
-	private var bankAccountDataMLD: MutableLiveData<List<Transaction>> = MutableLiveData()
-	val bankAccountData get() = bankAccountDataMLD as LiveData<List<Transaction>>
+	private var transactionDataMLD: MutableLiveData<List<Transaction>> = MutableLiveData()
+	val transactionData get() = transactionDataMLD as LiveData<List<Transaction>>
 
 	private var totalBalanceMLD: MutableLiveData<String> = MutableLiveData()
 	val totalBalance get() = totalBalanceMLD as LiveData<String>
@@ -27,7 +27,7 @@ class HomeViewModel(
 		viewModelScope.launch {
 			val data = homeUseCase.loadBankAccountData(userId)
 			delay(2500)
-			bankAccountDataMLD.value = data
+			transactionDataMLD.value = data
 			calculateBalances(data)
 		}
 	}

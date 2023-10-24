@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
 
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel) {
-	val bankAccountData by homeViewModel.bankAccountData.observeAsState()
+	val bankAccountData by homeViewModel.transactionData.observeAsState()
 	val totalBalance by homeViewModel.totalBalance.observeAsState()
 	val negativeBalance by homeViewModel.negativeBalance.observeAsState()
 

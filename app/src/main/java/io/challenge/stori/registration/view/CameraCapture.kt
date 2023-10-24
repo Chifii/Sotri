@@ -96,6 +96,7 @@ fun CameraScreen(
 	viewModel: CameraCaptureViewModel
 ) {
 	val goToHome by viewModel.goToHome.observeAsState()
+	val error by viewModel.error.observeAsState()
 
 	val context = LocalContext.current
 
@@ -104,6 +105,10 @@ fun CameraScreen(
 
 		val intent = Intent(context, HomeActivity::class.java)
 		context.startActivity(intent)
+	}
+
+	if (error?.isNotEmpty() == true) {
+		Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
 	}
 
 	val file = context.createImageFile()

@@ -19,6 +19,9 @@ class CameraCaptureViewModel(
 	private var goToHomeMLD: MutableLiveData<Boolean> = MutableLiveData()
 	val goToHome get() = goToHomeMLD as LiveData<Boolean>
 
+	private var errorMLD: MutableLiveData<String> = MutableLiveData()
+	val error get() = errorMLD as LiveData<String>
+
 	fun uploadImageAndSaveUrl(imageUri: Uri) {
 		viewModelScope.launch {
 			val uploadResult = uploadImageUseCase(imageUri)
@@ -30,11 +33,11 @@ class CameraCaptureViewModel(
 					}
 
 					is Result.Error -> {
-						// Manejar el error de guardar la URL
+						errorMLD.value = saveResult.exception.message
 					}
 				}
 			} else if (uploadResult is Result.Error) {
-				// Manejar el error de carga de imagen
+				errorMLD.value = uploadResult.exception.message
 			}
 		}
 	}

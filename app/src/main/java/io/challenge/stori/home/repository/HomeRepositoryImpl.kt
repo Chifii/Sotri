@@ -53,7 +53,6 @@ class HomeRepositoryImpl : HomeRepository {
 					"FirebaseDatabaseError",
 					"Error de Firebase Database no identificado: ${e.message}"
 				)
-
 			} catch (e: Exception) {
 				Log.e("GeneralError", "Error general: ${e.message}")
 			}
