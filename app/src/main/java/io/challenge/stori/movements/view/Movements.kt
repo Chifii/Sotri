@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import io.challenge.stori.R
 import io.challenge.stori.home.model.Transaction
 import io.challenge.stori.home.view.ui.COLOR_BLUE
+import io.challenge.stori.home.view.ui.COLOR_RED
 
 @Composable
 fun TransactionDetailScreen(transaction: Transaction?) {
@@ -82,7 +83,7 @@ fun TransactionDetailScreen(transaction: Transaction?) {
 				),
 				fontSize = 30.sp,
 				fontWeight = FontWeight.Bold,
-				color = Color(COLOR_BLUE),
+				color = if (transaction?.amount!! >= 0) Color(COLOR_BLUE) else Color(COLOR_RED),
 				modifier = Modifier
 					.align(Alignment.CenterHorizontally)
 					.padding(end = 8.dp),
